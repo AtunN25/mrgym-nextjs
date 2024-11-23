@@ -12,6 +12,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+        backgroundImage: {
+        'split-1-3': 'linear-gradient(to right, #1e293b 40%, white 40%)',
+      },
     },
   },
   plugins: [],
