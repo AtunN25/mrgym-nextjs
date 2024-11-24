@@ -1,5 +1,5 @@
-import React from 'react'
 
+'use client'
 function CardsDashboard() {
     return (
         <div className="bg-white shadow rounded-lg w-full dark:bg-gray-800">

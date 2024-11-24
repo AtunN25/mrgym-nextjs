@@ -1,19 +1,17 @@
 'use client'
 
 import CardsDashboard from "@/components/CardsDashboard";
-import Grafico from "@/components/Grafico";
+
 
 function Dashboard() {
   return (
     <div className="p-4 sm:ml-64">
-      <div className="border-gray-200 rounded-lg dark:border-gray-700 mt-14 p-2 gap-2 space-y-2">
+      <div className="border-gray-200 rounded-lg dark:border-gray-700 mt-14 p-2 gap-2 space-y-4">
 
         <CardsDashboard />
 
-        <div className="flex gap-2  ">
-          <Grafico />
 
-          <table className=" w-3/5 rounded-lg shadow text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <table className=" w-full rounded-lg shadow text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
 
@@ -129,7 +127,7 @@ function Dashboard() {
           </table>
         </div>
       </div>
-    </div>
+  
   );
 }
 
