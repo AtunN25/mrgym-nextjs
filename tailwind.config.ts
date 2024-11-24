@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import flowbitePlugin from "flowbite/plugin";
 
 const config: Config = {
   content: [
@@ -17,6 +18,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    flowbitePlugin,
+    // Otros plugins
+  ],
 };
 export default config;
