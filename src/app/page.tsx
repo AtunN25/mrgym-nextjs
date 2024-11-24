@@ -1,7 +1,7 @@
 "use client"
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Swal from 'sweetalert2';
+import { login } from '@/services/authService';
 import Image from 'next/image'
 
 function Page() {
@@ -17,44 +17,12 @@ function Page() {
 
         try {
 
-            const response = await fetch('/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: usuario,
-                    password: contrasenia,
-                }),
-            });
-
-
-            if (!response.ok) {
-                Swal.fire({
-                    title: "Error!",
-                    text: "credenciales incorrectas!",
-                    icon: "error"
-                });
-                throw new Error('Hubo un problema con la autenticación');
-            } else {
-
-                Swal.fire({
-                    title: "Buen Trabajo!",
-                    text: "credenciales correctas!",
-                    icon: "success"
-                });
-                const data = await response.json();
-                console.log('Respuesta del servidor:', data);
-
-                localStorage.setItem('token', data.token);
-                router.push('/dashboard');
-
-            }
-
-
+            const data = await login(usuario, contrasenia);
+            localStorage.setItem('token', data.token);
+            router.push('/dashboard');
 
         } catch (error) {
-            console.log(error, 'Algo salió mal');
+            console.error('Error al autenticar:', error);
         }
     }
 

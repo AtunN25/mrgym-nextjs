@@ -6,7 +6,7 @@ import Table from '@/components/Table'
 import { Client } from '@/Interface/Client'
 import Register from '@/components/Register'
 import Swal from 'sweetalert2';
-
+import { fetchClients, registerClient } from '@/services/clienteService'; 
 
 function Miembros() {
 
@@ -19,20 +19,9 @@ function Miembros() {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch('https://mrgymbackendspringboot-production-2dcf.up.railway.app/cliente/listar', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-
-          if (!response.ok) {
-
-            throw new Error('Error en la solicitud');
-          }
-
-          const data = await response.json();
-          console.log(JSON.stringify(data))
+          
+          const data = await fetchClients(token); 
+          console.log('Clientes obtenidos:', data);
           setClients(data);
 
         } catch (error) {
@@ -51,41 +40,32 @@ function Miembros() {
 
     if (token) {
       try {
-        const response = await fetch('https://mrgymbackendspringboot-production-2dcf.up.railway.app/cliente/agregar', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          console.log(JSON.stringify(data))
-          Swal.fire({
-            title: "Error 403!",
-            text: "formato de datos incorrectos!",
-            icon: "error"
-          });
-          throw new Error('Error en la solicitud');
-        }
-
-        const newClient = await response.json();
-        Swal.fire({
-          title: "Buen Trabajo!",
-          text: "Cliente registrado con exito!",
-          icon: "success"
-        });
-        console.log('Cliente registrado con éxito:', newClient);
-
         
+        const newClient = await registerClient(token, data);
 
-        setQrDniCliente(newClient.dni_cliente);
+        Swal.fire({
+          title: 'Buen Trabajo!',
+          text: 'Cliente registrado con éxito!',
+          icon: 'success',
+        });
+
+        console.log(newClient.dni_cliente)
+
+        if (newClient.dni_cliente) {
+          setQrDniCliente(newClient.dni_cliente); // Solo actualizar si hay dni_cliente
+        } else {
+          console.error('El cliente registrado no tiene DNI');
+        }
 
         //actualizar la lista de clientes
         setClients((prevClients) => [...prevClients, newClient]);
 
       } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Formato de datos incorrectos!',
+          icon: 'error',
+        });
         console.error('Error al registrar el cliente:', error);
       }
     } else {
