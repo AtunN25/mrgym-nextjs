@@ -5,7 +5,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/auth/:path*',  // Captura todas las solicitudes que empiecen con /auth
-        destination: 'https://mrgymbackendspringboot-production-2dcf.up.railway.app/auth/:path*',  // Redirige al backend real
+        destination: 'https://mrgymbackendspringboot-production-d49e.up.railway.app/auth/:path*',  // Redirige al backend real
+      },
+      {
+        source: '/cliente/actualizar/:dni', // Captura las solicitudes que empiecen con /cliente/actualizar
+        destination: 'https://mrgymbackendspringboot-production-d49e.up.railway.app/cliente/actualizar/:dni',  // Redirige al endpoint real del backend
       },
     ];
   },

@@ -1,9 +1,9 @@
 
 // por el momento miebro se guardara como si
-import { Client } from '@/Interface/Client'
+import { ClientRegister } from '@/Interface/Client'
 
 
-function Register({ onFormSubmit }: { onFormSubmit: (data: Client) => void; }) {
+function Register({ onFormSubmit }: { onFormSubmit: (data: ClientRegister) => void; }) {
 
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -12,13 +12,14 @@ function Register({ onFormSubmit }: { onFormSubmit: (data: Client) => void; }) {
 
         const miembro = formData.has("miembro"); 
 
-        const data: Client = {
+        const data: ClientRegister = {
             nombre_cliente: formData.get("nombre_cliente") as string,
             apellido_cliente: formData.get("apellido_cliente") as string,
             telefono_cliente: formData.get("telefono_cliente") as string,
             dni_cliente: formData.get("dni_cliente") as string,
             email: formData.get("email") as string,
-            miembro: miembro
+            miembro: miembro,
+            habilitado : true
         };
 
         onFormSubmit(data);

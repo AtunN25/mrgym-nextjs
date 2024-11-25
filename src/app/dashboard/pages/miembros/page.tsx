@@ -3,16 +3,20 @@
 import React, { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code'
 import Table from '@/components/Table'
-import { Client } from '@/Interface/Client'
+import { ClientRegister,ClientUpdate } from '@/Interface/Client'
 import Register from '@/components/Register'
 import Swal from 'sweetalert2';
 import { fetchClients, registerClient } from '@/services/clienteService'; 
+import MembresiaForm from '@/components/MembresiaForm'
 
 function Miembros() {
 
 
-  const [clients, setClients] = useState<Client[]>([]);
+  const [clients, setClients] = useState<ClientUpdate[]>([]);
   const [qrDniCliente, setQrDniCliente] = useState<string | null>(null);
+
+  const [Ultimoclients, setUltimoClients] = useState<ClientUpdate>();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +39,7 @@ function Miembros() {
     fetchData();
   }, []);
 
-  const RegistrarCliente = async (data: Client) => {
+  const RegistrarCliente = async (data: ClientRegister) => {
     const token = localStorage.getItem('token');
 
     if (token) {
@@ -49,7 +53,7 @@ function Miembros() {
           icon: 'success',
         });
 
-        console.log(newClient.dni_cliente)
+        console.log(newClient)
 
         if (newClient.dni_cliente) {
           setQrDniCliente(newClient.dni_cliente); // Solo actualizar si hay dni_cliente
@@ -57,6 +61,8 @@ function Miembros() {
           console.error('El cliente registrado no tiene DNI');
         }
 
+        setUltimoClients(newClient);
+        localStorage.setItem('ultimoCliente', JSON.stringify(newClient));
         //actualizar la lista de clientes
         setClients((prevClients) => [...prevClients, newClient]);
 
@@ -76,12 +82,14 @@ function Miembros() {
 
   return (
     <div className="p-4 sm:ml-64">
-      <div className=" border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
+      <div className="  border-gray-200  rounded-lg dark:border-gray-700 mt-14">
 
-        <div className='border rounded-lg border-gray-950 p-4 flex-auto space-y-2'>
+        <div className='  rounded-lg border-gray-950 p-4 flex-auto space-y-2'>
 
 
           <Register onFormSubmit={RegistrarCliente}></Register>
+
+          <MembresiaForm data={Ultimoclients}></MembresiaForm>
 
           <Table data={clients}></Table>
 

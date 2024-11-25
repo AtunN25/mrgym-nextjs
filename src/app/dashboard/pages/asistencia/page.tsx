@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 //import { useRef } from 'react';
 import Html5QrcodePlugin from './Html5QrcodeScannerPlugin'
-import {Client} from '@/Interface/Client'
+import {ClientUpdate} from '@/Interface/Client'
+import Swal from 'sweetalert2';
 
 function Asistencia() {
 
-  const [qrDniClient, setqrDniClient] = useState<Client[]>([]);
-  const [datosCliente, setDatosCliente] = useState<Client | null>(null);
+  const [qrDniClient, setqrDniClient] = useState<ClientUpdate[]>([]);
+  const [datosCliente, setDatosCliente] = useState<ClientUpdate | null>(null);
   //const qrCodePluginRef = useRef<{ stop: () => Promise<void> } | null>(null);
 
   const onNewScanResult = (decodedText: string, decodedResult: unknown) => {
@@ -15,7 +16,11 @@ function Asistencia() {
     console.log("DecodedResult:", decodedResult);
 
     if (decodedText ) {
-      alert("Se encontró el código");
+      Swal.fire({
+        title: 'Buen Trabajo!',
+        text: 'Cliente registrado con éxito!',
+        icon: 'success',
+      });
       BuscarCodigoDni(decodedText);
 
       /*if(qrCodePluginRef.current){
@@ -34,7 +39,7 @@ function Asistencia() {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await fetch(`https://mrgymbackendspringboot-production-2dcf.up.railway.app/cliente/buscar/${decodedText}`, {
+        const response = await fetch(`https://mrgymbackendspringboot-production-d49e.up.railway.app/cliente/buscar/${decodedText}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

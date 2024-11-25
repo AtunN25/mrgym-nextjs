@@ -1,8 +1,8 @@
   
-  import { Client } from '@/Interface/Client'
+  import { ClientRegister } from '@/Interface/Client'
 
   export const fetchClients = async (token: string) => {
-    const response = await fetch('https://mrgymbackendspringboot-production-2dcf.up.railway.app/cliente/listar', {
+    const response = await fetch('https://mrgymbackendspringboot-production-d49e.up.railway.app/cliente/listar', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -17,8 +17,8 @@
   };
   
   //se cambio el any por CLient en caso de un error 
-  export const registerClient = async (token: string, data: Client) => {
-    const response = await fetch('https://mrgymbackendspringboot-production-2dcf.up.railway.app/cliente/agregar', {
+  export const registerClient = async (token: string, data: ClientRegister) => {
+    const response = await fetch('https://mrgymbackendspringboot-production-d49e.up.railway.app/cliente/agregar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
