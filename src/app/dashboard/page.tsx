@@ -25,8 +25,8 @@ export interface DashboardStats {
 
 function Dashboard() {
   const [asistencias, setAsistencias] = useState<Asistencia[]>([]);
-  const token = localStorage.getItem('token');
-
+  
+  const [token, setToken] = useState<string | null>(null);
 
   const [stats, setStats] = useState<DashboardStats>({
     totalClientes: 0,
@@ -37,10 +37,18 @@ function Dashboard() {
   });
 
   useEffect(() => {
+    // Acceder a `localStorage` solo en el cliente
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []); 
+
+  useEffect(() => {
 
     const fetchTotalMembresias = async () => {
       try {
-        const token = localStorage.getItem("token");
+        //const token = localStorage.getItem("token");
         if (token) {
           const membresias = await fetchMembresia(token);
           const totalMembresias = membresias.length; // Suponiendo que membresias es un array
@@ -59,7 +67,7 @@ function Dashboard() {
     // Obtener la cantidad total de clientes
     const fetchTotalClientes = async () => {
       try {
-        const token = localStorage.getItem("token");
+        //const token = localStorage.getItem("token");
         if (token) {
           const clientResponse = await fetchClients(token);
           const totalClientes = clientResponse.length; // Obtener el número de clientes
