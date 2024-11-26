@@ -45,87 +45,77 @@ function Dashboard() {
   }, []); 
 
   useEffect(() => {
-
-    const fetchTotalMembresias = async () => {
-      try {
-        //const token = localStorage.getItem("token");
-        if (token) {
+    if (token) {
+      // Fetch total membresias
+      const fetchTotalMembresias = async () => {
+        try {
           const membresias = await fetchMembresia(token);
-          const totalMembresias = membresias.length; // Suponiendo que membresias es un array
+          console.log('Membresías obtenidas:', membresias);
+          const totalMembresias = membresias.length;
           setStats((prevStats) => ({
             ...prevStats,
-            totalMembresias: totalMembresias, // Actualizar el total de membresías
+            totalMembresias: totalMembresias,
           }));
+        } catch (error) {
+          console.error("Error al obtener las membresías", error);
         }
-      } catch (error) {
-        console.error("Error al obtener las membresías", error);
-      }
-    };
+      };
 
-    fetchTotalMembresias();
-
-    // Obtener la cantidad total de clientes
-    const fetchTotalClientes = async () => {
-      try {
-        //const token = localStorage.getItem("token");
-        if (token) {
+      // Fetch total clientes
+      const fetchTotalClientes = async () => {
+        try {
           const clientResponse = await fetchClients(token);
-          const totalClientes = clientResponse.length; // Obtener el número de clientes
+          console.log('Clientes obtenidos:', clientResponse);
+          const totalClientes = clientResponse.length;
           setStats((prevStats) => ({
             ...prevStats,
-            totalClientes: totalClientes, // Actualizar el total de clientes
+            totalClientes: totalClientes,
           }));
+        } catch (error) {
+          console.error("Error al obtener los clientes", error);
         }
-      } catch (error) {
-        console.error("Error al obtener los clientes", error);
-      }
-    };
+      };
 
-    fetchTotalClientes();
-    
-    const fetchAsistencias = async () => {
-      try {
-        const response = await fetch(
-          "https://mrgymbackendspringboot-production-d49e.up.railway.app/asistencia/listar",
-          {
-            method: "GET",
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
+      // Fetch asistencias
+      const fetchAsistencias = async () => {
+        try {
+          const response = await fetch(
+            "https://mrgymbackendspringboot-production-d49e.up.railway.app/asistencia/listar",
+            {
+              method: "GET",
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Asistencias obtenidas:', data); 
+            setAsistencias(data);
+
+            const totalHoy = data.filter((a: Asistencia) =>
+              new Date(a.fecha_asistencia).toDateString() === new Date().toDateString()
+            ).length;
+
+            setStats((prevStats) => ({
+              ...prevStats,
+              asistenciaTotal: data.length,
+              asistenciaHoy: totalHoy,
+            }));
+          } else {
+            console.error("Error al obtener las asistencias");
           }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setAsistencias(data);
-          console.log(data)
-          console.log(JSON.stringify(data))
-
-
-           // Procesar datos para las estadísticas
-          // const uniqueClientes = new Set(data.map((a: Asistencia) => a.clienteEntities?.id_cliente || 0));// Aquí se corrige el callback
-           const totalHoy = data.filter((a: Asistencia) =>
-             new Date(a.fecha_asistencia).toDateString() === new Date().toDateString()
-           ).length;
- 
-           setStats((prevStats) => ({
-            ...prevStats,
-            asistenciaTotal: data.length,
-            asistenciaHoy: totalHoy,
-          }));
-
-        } else {
-          console.error("Error al obtener las asistencias");
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
         }
-      } catch (error) {
-        console.error("Error en la solicitud:", error);
-      }
-    };
+      };
 
-    fetchAsistencias();
-
-    
-  }, );
+      fetchTotalMembresias();
+      fetchTotalClientes();
+      fetchAsistencias();
+    }
+  }, [token]);
 
 
   return (

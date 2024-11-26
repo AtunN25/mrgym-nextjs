@@ -120,24 +120,25 @@ function Asistencia() {
 
 
   return (
-    <div className="p-4 sm:ml-64">
-      <div className="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
-        asistencia
+    <div className="p-4 sm:ml-64 flex gap-2 mt-14 h-4/5">
+      <div className="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 w-3/5 h-full">
+        <Html5QrcodePlugin
+          fps={10}
+          qrbox={400}
+          disableFlip={false}
+          qrCodeSuccessCallback={onNewScanResult}
+
+        />
       </div>
-      <Html5QrcodePlugin
-        fps={10}
-        qrbox={250}
-        disableFlip={false}
-        qrCodeSuccessCallback={onNewScanResult}
-      />
-      <div>
 
-        <h3>Datos del asistente:</h3>
+      <div className="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 w-2/5">
+
+        
         {datosCliente ? (
-          <div>
+          <div className='p-8 text-base space-y-2 w-4/5'>
 
-            <p><strong>Nombre:</strong> {datosCliente.nombre_cliente}</p>
-            <p><strong>Apellido:</strong> {datosCliente.apellido_cliente}</p>
+            <p><strong >Nombre:</strong> {datosCliente.nombre_cliente}</p>
+            <p><strong>Apellidos:</strong> {datosCliente.apellido_cliente}</p>
             <p><strong>Teléfono:</strong> {datosCliente.telefono_cliente}</p>
             <p><strong>DNI:</strong> {datosCliente.dni_cliente}</p>
             <p><strong>Email:</strong> {datosCliente.email}</p>
@@ -171,7 +172,7 @@ function Asistencia() {
 
 
         ) : (
-          <p>No se han encontrado datos del asistente.</p>
+          <p></p>
         )}
       </div>
     </div>
