@@ -29,14 +29,14 @@ interface MembresiaFormProps {
       });
 
     useEffect(() => {
-        // Recuperar el último cliente del localStorage
+       
         const ultimoCliente = localStorage.getItem('ultimoCliente');
         if (ultimoCliente) {
           const cliente = JSON.parse(ultimoCliente);
           console.log(cliente)
           setFormData((prevData) => ({
             ...prevData,
-            fk_cliente_membresia: cliente.id_cliente, // Asignamos el id_cliente al estado
+            fk_cliente_membresia: cliente.id_cliente, 
           }));
 
           console.log(cliente.id_cliente)
@@ -45,9 +45,9 @@ interface MembresiaFormProps {
 
    
     
-      // Si data es undefined, mostrar un loading o un mensaje de espera
+     
       if (!data) {
-        return <div>Loading...</div>; // O cualquier otro mensaje adecuado
+        return <div></div>;
       }
     
 
@@ -63,30 +63,29 @@ interface MembresiaFormProps {
           const response = await fetch('https://mrgymbackendspringboot-production-d49e.up.railway.app/membresia/registrar', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json', // Indicamos que estamos enviando JSON
-              'Authorization': `Bearer ${token}`, // Si necesitas incluir el token en los headers
+              'Content-Type': 'application/json', 
+              'Authorization': `Bearer ${token}`, 
             },
-            body: JSON.stringify(formData), // Convertimos los datos del formulario a JSON
+            body: JSON.stringify(formData), 
           });
       
-          // Verificamos si la respuesta es exitosa
+       
           if (!response.ok) {
             throw new Error('Error al registrar la membresía');
           }
       
-          // Si la respuesta es exitosa, procesamos la respuesta
+         
           const data = await response.json();
           console.log('Respuesta del servidor:', data);
       
-          // Aquí puedes hacer algo con la respuesta, como mostrar un mensaje de éxito
+     
           Swal.fire({
             title: 'Registro exitoso!',
             text: 'La membresía ha sido registrada correctamente.',
             icon: 'success',
           });
       
-          // Puedes actualizar el estado o realizar otras acciones después de enviar los datos
-          // setFormData({...}); // Si deseas limpiar o actualizar el formulario
+        
       
         } catch (error) {
           // Manejo de errores
@@ -109,12 +108,12 @@ interface MembresiaFormProps {
     };
 
     return (
-        <div className="w-full gap-16 p-4 font-[sans-serif] border-2 border-gray-200 rounded-lg text-black">
+        <div className="w-full gap-16 p-4 font-[sans-serif] border-2 border-gray-200 rounded-lg text-black flex flex-col ">
             <form className="" onSubmit={onSubmit}>
-                <div className="grid grid-cols-3 gap-2">
-                    <div className="col-span-3">
+                <div className="flex  gap-2  h-full">
+                    <div className="w-1/2">
                         <div className="relative z-0 w-full mb-5 group">
-                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0">
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                                 Fecha de inicio
                             </label>
                             <input
@@ -122,7 +121,7 @@ interface MembresiaFormProps {
                                 name="fecha_inicio"
                                 value={formData.fecha_inicio}
                                 onChange={handleChange}
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 required
                             />
                         </div>
@@ -135,15 +134,15 @@ interface MembresiaFormProps {
                                 name="fecha_final"
                                 value={formData.fecha_final}
                                 onChange={handleChange}
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 required
                             />
                         </div>
                     </div>
 
-                    <div className="col-span-3">
+                    <div className="w-1/2">
                         <div className="relative z-0 w-full mb-5 group">
-                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0">
+                            <label className=" absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ">
                                 Duración (meses)
                             </label>
                             <input
@@ -151,7 +150,8 @@ interface MembresiaFormProps {
                                 name="duracion_meses"
                                 value={formData.duracion_meses}
                                 onChange={handleChange}
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300"
+                                min="1"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 required
                             />
                         </div>
@@ -164,14 +164,15 @@ interface MembresiaFormProps {
                                 name="costo_mensual"
                                 value={formData.costo_mensual}
                                 onChange={handleChange}
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300"
+                                min="1"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 required
                             />
                         </div>
                     </div>
                 </div>
 
-                <div className='flex items-center pt-4 space-x-12'>
+                <div className='flex '>
                     <button
                         type="submit"
                         className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"

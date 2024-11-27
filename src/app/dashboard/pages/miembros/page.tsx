@@ -1,13 +1,14 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import QRCode from 'react-qr-code'
+//import QRCode from 'react-qr-code'
 import Table from '@/components/Table'
-import { ClientRegister,ClientUpdate } from '@/Interface/Client'
+import { ClientRegister, ClientUpdate } from '@/Interface/Client'
 import Register from '@/components/Register'
 import Swal from 'sweetalert2';
-import { fetchClients, registerClient } from '@/services/clienteService'; 
+import { fetchClients, registerClient } from '@/services/clienteService';
 import MembresiaForm from '@/components/MembresiaForm'
+import QrCode from '@/components/QrCode'
 
 function Miembros() {
 
@@ -23,8 +24,8 @@ function Miembros() {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          
-          const data = await fetchClients(token); 
+
+          const data = await fetchClients(token);
           console.log('Clientes obtenidos:', data);
           setClients(data);
 
@@ -44,7 +45,7 @@ function Miembros() {
 
     if (token) {
       try {
-        
+
         const newClient = await registerClient(token, data);
 
         Swal.fire({
@@ -89,15 +90,24 @@ function Miembros() {
 
           <Register onFormSubmit={RegistrarCliente}></Register>
 
-          <MembresiaForm data={Ultimoclients}></MembresiaForm>
+          <div className='flex space-x-4'>
+
+            <div>
+              {qrDniCliente && (
+                <div className="">
+                  <QrCode props={qrDniCliente} />
+                </div>
+              )}
+            </div>
+
+            <MembresiaForm data={Ultimoclients}></MembresiaForm>
+
+
+          </div>
 
           <Table data={clients}></Table>
 
-          {qrDniCliente && (
-            <div className="mt-4 flex justify-center">
-              <QRCode value={qrDniCliente} size={256} bgColor="#282c34" fgColor="#fff" level="H" />
-            </div>
-          )}
+
 
         </div>
 
