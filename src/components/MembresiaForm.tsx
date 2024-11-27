@@ -27,15 +27,19 @@ interface MembresiaFormProps {
         fk_cliente_membresia: 0,
         fk_promocion: 1,
       });
+
     useEffect(() => {
         // Recuperar el último cliente del localStorage
         const ultimoCliente = localStorage.getItem('ultimoCliente');
         if (ultimoCliente) {
           const cliente = JSON.parse(ultimoCliente);
+          console.log(cliente)
           setFormData((prevData) => ({
             ...prevData,
             fk_cliente_membresia: cliente.id_cliente, // Asignamos el id_cliente al estado
           }));
+
+          console.log(cliente.id_cliente)
         }
       }, []);
 
