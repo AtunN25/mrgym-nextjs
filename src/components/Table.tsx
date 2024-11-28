@@ -17,7 +17,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
         setClients(data);
     }, [data]);
 
-    //solo enlista los que tengan true en la propiedad de habilitado
+    
     const filteredData = clients.filter((client) => {
         //console.log('Client habilitado:', client.habilitado);
         return client.habilitado === true;
@@ -27,7 +27,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
 
     /*filteredData.map((client) => {
         console.log("Cliente:", client);
-        console.log("ID Cliente:", client.id_cliente); // Asegúrate de que no sea undefined
+        console.log("ID Cliente:", client.id_cliente); 
       });*/
 
 
@@ -41,12 +41,12 @@ function Table({ data }: { data: ClientUpdate[]; }) {
             console.log('clienteELiminarPut ' + clienteEliminarPut)
 
             const clienteActualizar = {
-                ...clienteEliminarPut,  // Mantener todos los demás datos del cliente
-                habilitado: false  // Cambiar solo habilitado a false
+                ...clienteEliminarPut,  
+                habilitado: false  
             };
 
             console.log(clienteActualizar)
-            const token = localStorage.getItem('token'); // Suponiendo que guardas el token en localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
                 throw new Error('Token no encontrado');
@@ -54,7 +54,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
 
             console.log('objeto ' + JSON.stringify(clienteActualizar))
 
-            // Actualizar cliente en el backend
+            
             const response = await fetch(
                 `/cliente/actualizar/${idString}`,
                 {
@@ -71,7 +71,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                 throw new Error('Error al actualizar cliente');
             }
 
-            // Actualizar el estado local
+            
             setClients((prevClients) =>
                 prevClients.filter((client) => client.habilitado || client.dni_cliente !== idString)
             );
@@ -90,9 +90,9 @@ function Table({ data }: { data: ClientUpdate[]; }) {
         if (!editClient) return;
 
         try {
-            // Actualizar cliente en el backend
+          
 
-            const token = localStorage.getItem('token'); // Suponiendo que guardas el token en localStorage
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
                 throw new Error('Token no encontrado');
@@ -159,7 +159,10 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredData.map((client, index) => (
+                    {filteredData
+                        .slice()
+                        .reverse()
+                        .map((client, index) => (
 
                         <tr key={index} className="border-b border-gray-200 dark:border-gray-700">
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
