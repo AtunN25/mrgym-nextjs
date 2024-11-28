@@ -2,14 +2,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ClientUpdate } from '@/Interface/Client'
-
-
+import QrCode from '@/components/QrCode'
 
 function Table({ data }: { data: ClientUpdate[]; }) {
 
     const [clients, setClients] = useState<ClientUpdate[]>(data);
     const [editClient, setEditClient] = useState<ClientUpdate | null>(null);
-
+    const [qrDniCliente, setQrDniCliente] = useState<string | null>(null);
 
 
     useEffect(() => {
@@ -17,7 +16,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
         setClients(data);
     }, [data]);
 
-    
+
     const filteredData = clients.filter((client) => {
         //console.log('Client habilitado:', client.habilitado);
         return client.habilitado === true;
@@ -41,12 +40,12 @@ function Table({ data }: { data: ClientUpdate[]; }) {
             console.log('clienteELiminarPut ' + clienteEliminarPut)
 
             const clienteActualizar = {
-                ...clienteEliminarPut,  
-                habilitado: false  
+                ...clienteEliminarPut,
+                habilitado: false
             };
 
             console.log(clienteActualizar)
-            const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token');
 
             if (!token) {
                 throw new Error('Token no encontrado');
@@ -54,7 +53,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
 
             console.log('objeto ' + JSON.stringify(clienteActualizar))
 
-            
+
             const response = await fetch(
                 `/cliente/actualizar/${idString}`,
                 {
@@ -71,7 +70,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                 throw new Error('Error al actualizar cliente');
             }
 
-            
+
             setClients((prevClients) =>
                 prevClients.filter((client) => client.habilitado || client.dni_cliente !== idString)
             );
@@ -90,9 +89,9 @@ function Table({ data }: { data: ClientUpdate[]; }) {
         if (!editClient) return;
 
         try {
-          
 
-            const token = localStorage.getItem('token'); 
+
+            const token = localStorage.getItem('token');
 
             if (!token) {
                 throw new Error('Token no encontrado');
@@ -164,41 +163,49 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                         .reverse()
                         .map((client, index) => (
 
-                        <tr key={index} className="border-b border-gray-200 dark:border-gray-700">
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                {client.nombre_cliente}
-                            </td>
-                            <td className="px-6 py-4">{client.apellido_cliente}</td>
-                            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                {client.telefono_cliente}
-                            </td>
-                            <td className="px-6 py-4">{client.dni_cliente}</td>
-                            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                {client.email}
-                            </td>
-                            <td className="px-6 py-4">{client.miembro ? 'Sí' : 'No'}</td>
+                            <tr key={index} className="border-b border-gray-200 dark:border-gray-700">
+                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                    {client.nombre_cliente}
+                                </td>
+                                <td className="px-6 py-4">{client.apellido_cliente}</td>
+                                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                                    {client.telefono_cliente}
+                                </td>
+                                <td className="px-6 py-4">{client.dni_cliente}</td>
+                                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                                    {client.email}
+                                </td>
+                                <td className="px-6 py-4">{client.miembro ? 'Sí' : 'No'}</td>
 
-                            <td className='space-x-2'>
-                                <button
-                                    className="bg-blue-500 text-white p-2 rounded-md"
-                                    onClick={() => abrirEditar(client)}
-                                >
-                                    editar
-                                </button>
-                                <button
-                                    className="bg-red-500 text-white p-2 rounded-md"
-                                    onClick={() => eliminar(client.id_cliente)}
-                                >
-                                    eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                                <td className='space-x-2'>
+                                    <button
+                                        className="bg-emerald-500 border text-white p-2 rounded-md"
+                                        onClick={() => {
+                                            setQrDniCliente(client.dni_cliente);
+                                        }}
+                                    >
+                                        QR
+                                    </button>
+                                    <button
+                                        className="bg-sky-600 text-white p-2 rounded-md"
+                                        onClick={() => abrirEditar(client)}
+                                    >
+                                        editar
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white p-2 rounded-md"
+                                        onClick={() => eliminar(client.id_cliente)}
+                                    >
+                                        eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
 
 
-            {/* Modal de edición */}
+            {/* Modal de edicion */}
             {editClient && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-md space-y-4 w-full md:w-1/3">
@@ -286,6 +293,26 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                     </div>
                 </div>
             )}
+
+            {qrDniCliente && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-md space-y-4 w-full md:w-1/3">
+                        <h2 className="text-xl font-bold">Código QR del Cliente</h2>
+                        <div className="flex justify-center">
+                            <QrCode props={qrDniCliente} /> {/* Generar el QR con el DNI del cliente */}
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                className="bg-gray-500 text-white p-2 rounded-md"
+                                onClick={() => setQrDniCliente(null)} // Cerrar el modal
+                            >
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </div>
 
