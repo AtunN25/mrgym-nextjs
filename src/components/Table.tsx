@@ -149,10 +149,10 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                         <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                             Email
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        {/*<th scope="col" className="px-6 py-3">
                             Miembro
-                        </th>
-                        <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                        </th>*/}
+                        <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800 ">
                             Options
                         </th>
                     </tr>
@@ -175,7 +175,7 @@ function Table({ data }: { data: ClientUpdate[]; }) {
                                 <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
                                     {client.email}
                                 </td>
-                                <td className="px-6 py-4">{client.miembro ? 'Sí' : 'No'}</td>
+                               {/* <td className="px-6 py-4">{client.miembro ? 'Sí' : 'No'}</td>*/}
 
                                 <td className='space-x-2'>
                                     <button

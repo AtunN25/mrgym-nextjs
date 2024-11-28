@@ -10,7 +10,7 @@ function Register({ onFormSubmit }: { onFormSubmit: (data: ClientRegister) => vo
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
 
-        const miembro = formData.has("miembro"); 
+        //const miembro = formData.has("miembro"); 
 
         const data: ClientRegister = {
             nombre_cliente: formData.get("nombre_cliente") as string,
@@ -18,7 +18,8 @@ function Register({ onFormSubmit }: { onFormSubmit: (data: ClientRegister) => vo
             telefono_cliente: formData.get("telefono_cliente") as string,
             dni_cliente: formData.get("dni_cliente") as string,
             email: formData.get("email") as string,
-            miembro: miembro,
+            //miembro: miembro,
+            miembro: true,
             habilitado : true
         };
 
@@ -28,7 +29,7 @@ function Register({ onFormSubmit }: { onFormSubmit: (data: ClientRegister) => vo
     return (
         <div className=" w-full gap-16 p-4  font-[sans-serif] border-2 border-gray-200  rounded-lg text-black">
             <form className="" onSubmit={onSubmit}>
-                <div className='grid grid-cols-3 gap-2'>
+                <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
                     <div className=''>
                         <div className="relative z-0 w-full mb-5 group">
                             <input type="text" name="nombre_cliente" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -58,11 +59,11 @@ function Register({ onFormSubmit }: { onFormSubmit: (data: ClientRegister) => vo
 
 
                             <div className='flex items-center pt-4 space-x-12'>
-                                <label className="inline-flex items-center cursor-pointer">
+                                {/*<label className="inline-flex items-center cursor-pointer">
                                     <input type="checkbox" name="miembro" className="sr-only peer" />
                                     <div className="relative w-11 h-6 bg-black peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
                                     <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-500">Miembro</span>
-                                </label>
+                                </label>*/}
                                 <button type="submit" className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
                                     Registrar Cliente
                                 </button>

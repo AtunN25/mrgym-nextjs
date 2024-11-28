@@ -90,9 +90,9 @@ function Miembros() {
 
           <Register onFormSubmit={RegistrarCliente}></Register>
 
-          <div className='flex space-x-4'>
+          <div className='sm:flex sm:space-x-4 '>
 
-            <div>
+            <div className='hidden sm:block'>
               {qrDniCliente && (
                 <div className="">
                   <QrCode props={qrDniCliente} />

@@ -25,31 +25,32 @@ function Page() {
     }
 
     return (
-        <div className="bg-red-500">
+        <div className="bg-slate-600 ">
 
-            <section className="bg-white sm:bg-split-1-3">
+            <section className="sm:bg-white sm:bg-split-1-3 h-screen">
                 <div className="flex  flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                    <div className="w-5/6 h-5/6 rounded-lg shadow-2xl  ">
-                        <div className="p-6 space-y-4 md:space-y-6  flex col-span-2  gap-4 h-full">
+                    <div className="w-5/6 h-5/6 bg-white sm:bg-transparent rounded-lg shadow-2xl  ">
+                        <div className="p-6  space-y-4 md:space-y-6  sm:flex  sm:col-span-2  gap-4 h-full">
 
-                            <div className='text-white  w-1/3 flex flex-col  pt-52 items-center'>
-
+                            <div className="text-white hidden sm:w-1/3 sm:flex flex-col sm:pt-52 items-start sm:items-center">
                                 <Image
                                     src="/image.png"
                                     width={200}
                                     height={200}
                                     alt="Picture of the author"
+                                    className="text-black"
                                 />
-
-                                <p className='font-light '>Servicio profesional semi personalizado
-                                    y grupal</p>
+                                <p className="font-light flex items-center justify-center">Servicio profesional semi personalizado y grupal</p>
                             </div>
 
+                            
 
-                            <div className='text-black  w-2/3  pt-14 '>
+                            <div className='text-black  w-2/3  pt-1  sm:pt-14 '>
 
-                                <div className=' flex justify-center items-center'>
-                                    <form className="space-y-2    md:space-y-6 pt-12 px-10   " action="#" onSubmit={handleSubmit}>
+                               
+
+                                <div className=' flex justify-center pl-20 items-center'>
+                                    <form className="space-y-2   md:space-y-6 sm:pt-12 px-10   " action="#" onSubmit={handleSubmit}>
 
                                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                                             Ingresa tu cuenta
