@@ -10,13 +10,33 @@ const QrCode: React.FC<QrCodeProps> = ({ props }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const downloadQrCode = () => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = 'qr-code.png';
-      link.click();
-    }
+    const qrCanvas = canvasRef.current;
+    if (!qrCanvas) return;
+
+  
+    const size = 200; // Tamaño del QR
+    const padding = 20; // Tamaño del borde blanco
+    const totalSize = size + padding * 2;
+
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = totalSize;
+    tempCanvas.height = totalSize;
+
+    const tempCtx = tempCanvas.getContext('2d');
+    if (!tempCtx) return;
+
+  
+    tempCtx.fillStyle = 'white';
+    tempCtx.fillRect(0, 0, totalSize, totalSize);
+
+   
+    tempCtx.drawImage(qrCanvas, padding, padding, size, size);
+
+
+    const link = document.createElement('a');
+    link.href = tempCanvas.toDataURL('image/png');
+    link.download = 'qr-code-with-border.png';
+    link.click();
   };
 
   return (
